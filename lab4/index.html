@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Real-Time Chat</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Real-Time Chat</h1>
+    <!-- Форма введення імені користувача -->
+    <form id="name-form" class="text-center">
+      <div class="form-group">
+        <label for="username">Your Name:</label>
+        <input id="username" class="my-2 form-control" autocomplete="off" required />
+      </div>
+      <button class="btn btn-primary">Join Chat</button>
+    </form>
+    <hr>
+    <ul id="messages" class="list-unstyled"></ul>
+
+    <!-- За замовчуванням форма введення та відправки повідомлень вимкнена -->
+    <form id="message-form">
+      <div class="my-5 input-group"> 
+        <input id="m" class="form-control" autocomplete="off" disabled required />
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit" disabled>Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script>
+    
+    // Client Side
+
+    $(function () {
+      // Ініціалізація Socket.io клієнта
+      var socket = io();
+      var username = "";
+
+      // Якщо користувач вводить ім'я та вирішує приєднатись до чату
+      $('#name-form').submit(function() {
+        username = $('#username').val(); // Зберігаємо його ім'я
+        $('#username').prop('disabled', true);  // Вимикаємо можливість ввести ім'я
+        $('#name-form button').prop('disabled', true);  // Вимикаємо можливість натиснути кнопку відправки імені
+        $('#message-form input').prop('disabled', false);  // Вмикаємо поле введення повідомлень
+        $('#message-form button').prop('disabled', false);  // Вмикаємо кнопку відправки повідомлень
+        return false;  // Запобігаємо відправці форми і перезавантаженню сторінки
+      });
+
+      // Обробка форми відправки повідомлення
+      $('#message-form').submit(function(){
+        var message = $('#m').val();  // Зберігаємо повідомлення
+        if (message.trim() !== "") {  // Перевіряємо чи воно не порожнє
+          socket.emit('chat message', { user: username, message: message }); // Відправляємо на сервер ім'я та повідомлення
+          $('#m').val('');  // Очищуємо поле введення
+        }
+        return false; // Запобігаємо відправці форми і перезавантаженню сторінки
+      });
+
+      // Якщо від сервера приходить повідомлення
+      socket.on('chat message', function(data){
+        $('#messages').append($('<li>').text(data.user + ": " + data.message));  // Відображаємо його на сторінці
+      });
+    });
+  </script>
+</body>
+</html>

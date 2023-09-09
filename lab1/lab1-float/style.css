@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    font-size: 50px;
+    text-align: center;
+}
+
+.blue {
+    background: #74d7f3;
+    width: 70%;
+    height: 10vh;
+    float: right;
+}
+
+.green {
+    background: #94f8b4;
+    width: 30%;
+    height: 90vh;
+    float: left;
+}
+
+.yellow {
+    background: #f6f894;
+    height: 90vh;
+}
+
+.orange {
+    background: #f8e2b0;
+    width: 70%;
+    height: 10vh;
+    float: left;
+}
+
+.purple {
+    background: #f094f8;
+    height: 10vh;
+    width: 30%;
+    float: right;
+}
+
+header, footer {
+    line-height: 10vh;
+}
+
+.inner-container {
+    line-height: 80vh;
+}

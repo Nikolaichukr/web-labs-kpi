@@ -1,0 +1,34 @@
+body {
+    background: gray;
+    text-align: center;
+    color: white;
+}
+
+#button {
+    background-color: rgb(34, 32, 32);
+    color: white;
+    cursor: pointer;
+    height: 40px;
+    width: 150px;
+    border: rgb(34, 32, 32);
+    border-radius: 10px;
+}
+
+#results {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#profile {
+    width: 250px;
+    margin: 10px;
+    background-color: rgb(34, 32, 32);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+img {
+    padding-top: 11px;
+}
